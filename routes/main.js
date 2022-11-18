@@ -87,7 +87,7 @@ module.exports = function(app, shopData) {
     app.get('/register', function (req,res) {
         res.render('register.ejs', shopData);
     });
-    app.post('/registered', [check('email').isEmail()], function (req,res) {
+    app.post('/registered', [check('email').isEmail(), check('password').isStrongPassword()], function (req,res) {
         //Here we are the variable that will store the user inputs.
         const firstName = req.sanitize(req.body.first_name);
         const lastName = req.sanitize(req.body.last_name);
