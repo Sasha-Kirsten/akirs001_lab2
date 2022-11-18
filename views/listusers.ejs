@@ -8,7 +8,7 @@
     <h1><%=shopName%> Shop</h1>
     <h2>Here are the books that we sell:</h2>
     <ul>
-      <% availableBooks.forEach(function(user) { %>
+      <% listusers.forEach(function(user) { %>
         <li><%= user.username %>, <%=user.email%> </li>
       <% }) %>
     </ul>
