@@ -2,6 +2,9 @@
 var express = require ('express')
 var ejs = require('ejs')
 var bodyParser= require ('body-parser')
+var session = require('express-session')
+var validator = require ('express-validator');
+const expressSanitizer = require('express-sanitizer');    
 const mysql = require('mysql');
 
 
@@ -9,6 +12,9 @@ const mysql = require('mysql');
 const app = express()
 const port = 8000
 app.use(bodyParser.urlencoded({ extended: true }))
+
+//Using the express sanitizer in the web application.
+app.use(expressSanitizer());
 
 // Set up css
 app.use(express.static(__dirname + '/public'));
@@ -28,6 +34,16 @@ db.connect((err) => {
     console.log('Connected to database');
 });
 global.db = db;
+
+//Create a session;
+app.use(session({
+    secret: 'somerandomstuff',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+    expires: 600000
+    }
+}));
 
 
 // Set the directory where Express will pick up HTML files
