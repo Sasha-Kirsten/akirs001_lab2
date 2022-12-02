@@ -232,29 +232,6 @@ module.exports = function(app, shopData) {
           //   "! <br> The humidity now is: " +
           //   weather.main.humidity;
 
-        // request(url, function (err, response, body) {
-        //   if (err) {
-        //     console.log("error:", error);
-        //   } else {
-        //     var movies = JSON.parse(body);
-        //     if (movies.length > 0 || movies !== undefined) {
-        //       //res.render()
-        //       var wmsg = "";
-        //       for(var index = 0; index<movies.length; index++){
-        //         wmsg += movies[index].show.name + "<br>";
-        //       }
-        //         // "It is " +
-        //         // movies.main;
-        //         //+
-        //         // " degrees in " +
-        //         // movies.name +
-        //         // "! <br> The humidity now is: " +
-        //         // movies.main.;
-        //       res.send(wmsg);
-        //     } else {
-        //       res.send("No data found");
-        //     }
-
   app.get("/api", function (req, res) {
 
     let keyword = req.query.keyword;
@@ -307,21 +284,6 @@ module.exports = function(app, shopData) {
       }
     });
   });
-
-  // app.get("/search-result", function (req, res) {
-  //   //searching in the database
-  //   //res.send("You searched for: " + req.query.keyword);
-  //   const keyword = req.sanitize(req.query.keyword);
-  //   let sqlquery = "SELECT * FROM books WHERE name LIKE '%" + keyword + "%'"; // query database to get all the books
-  //   // execute sql query
-  //   db.query(sqlquery, (err, result) => {
-  //     if (err) {
-  //       res.redirect("./");
-  //     }
-  //     let newData = Object.assign({}, shopData, { availableBooks: result });
-  //     console.log(newData);
-  //     res.render("list.ejs", newData);
-  //   });
 
   app.get("/TVshows", redirectLogin, function (req, res) {
     res.render("TVshows.ejs", shopData);
