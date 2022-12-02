@@ -24,7 +24,7 @@ const db = mysql.createConnection ({
     host: 'localhost',
     user: 'appuser',
     password: 'app2027',
-    database: 'myBookshop'
+    database: 'myBookShop'
 });
 // Connect to the database
 db.connect((err) => {
