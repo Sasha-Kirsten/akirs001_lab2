@@ -193,6 +193,139 @@ module.exports = function(app, shopData) {
                 //res.redirect('./')
             })
         });
+    
+    app.get("/weather", function (req, res) {
+    res.render("weather.ejs", shopData);
+  });
+
+  app.get("/weather-result", redirectLogin, (req, res) => {
+    const request = require("request");
+    let apiKey = "5dea3a12e94d5d97bbe3f3741cb5b6f1";
+    let city = req.query.keyword.toString().toLowerCase();
+    let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+
+
+    request(url, function (err, response, body) {
+      if (err) {
+        console.log("error:", error);
+      } else {
+         //res.send(body);
+
+        var weather = JSON.parse(body);
+        //var wmsg
+        if (weather !== undefined && weather.main !== undefined) {
+            //wmsg += weather[index].main.temp + weather.name + weather.main.humidity;
+          //res.send(wmsg);
+          res.render('weather-result.ejs', {weather})
+        }else{
+          res.send("Weather not found for: "+city);
+        }
+      }
+  });
+  });
+
+        // var wmsg =
+          //   "It is " +
+          //   weather.main.temp +
+          //   " degrees in " +
+          //   weather.name +
+          //   "! <br> The humidity now is: " +
+          //   weather.main.humidity;
+
+        // request(url, function (err, response, body) {
+        //   if (err) {
+        //     console.log("error:", error);
+        //   } else {
+        //     var movies = JSON.parse(body);
+        //     if (movies.length > 0 || movies !== undefined) {
+        //       //res.render()
+        //       var wmsg = "";
+        //       for(var index = 0; index<movies.length; index++){
+        //         wmsg += movies[index].show.name + "<br>";
+        //       }
+        //         // "It is " +
+        //         // movies.main;
+        //         //+
+        //         // " degrees in " +
+        //         // movies.name +
+        //         // "! <br> The humidity now is: " +
+        //         // movies.main.;
+        //       res.send(wmsg);
+        //     } else {
+        //       res.send("No data found");
+        //     }
+
+  app.get("/api", function (req, res) {
+
+    let keyword = req.query.keyword;
+    // Query database to get all the books
+    let sqlquery = "SELECT * FROM books";
+
+    if(keyword){
+      sqlquery += " WHERE name LIKE '%" +keyword+ "%'";
+    }
+
+    // Execute the sql query
+    db.query(sqlquery, (err, result) => {
+      if (err) {
+        res.redirect("./");
+      }
+      // Return results as a JSON object
+      res.json(result);
+    });
+  });
+
+  app.get("/TV-show-result", redirectLogin, (req, res) => {
+    const request = require("request");
+    let value = req.query.keyword;
+    //let apiKey = "5dea3a12e94d5d97bbe3f3741cb5b6f1";
+    let city = "london";
+    //let url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+    let url = `https://api.tvmaze.com/search/shows?q=:${value}`;
+    request(url, function (err, response, body) {
+      if (err) {
+        console.log("error:", error);
+      } else {
+        var movies = JSON.parse(body);
+        if (movies.length > 0 || movies !== undefined) {
+          //res.render()
+          var wmsg = "";
+          for(var index = 0; index<movies.length; index++){
+            wmsg += movies[index].show.name + "<br>";
+          }
+            // "It is " +
+            // movies.main;
+            //+
+            // " degrees in " +
+            // movies.name +
+            // "! <br> The humidity now is: " +
+            // movies.main.;
+          res.send(wmsg);
+        } else {
+          res.send("No data found");
+        }
+      }
+    });
+  });
+
+  // app.get("/search-result", function (req, res) {
+  //   //searching in the database
+  //   //res.send("You searched for: " + req.query.keyword);
+  //   const keyword = req.sanitize(req.query.keyword);
+  //   let sqlquery = "SELECT * FROM books WHERE name LIKE '%" + keyword + "%'"; // query database to get all the books
+  //   // execute sql query
+  //   db.query(sqlquery, (err, result) => {
+  //     if (err) {
+  //       res.redirect("./");
+  //     }
+  //     let newData = Object.assign({}, shopData, { availableBooks: result });
+  //     console.log(newData);
+  //     res.render("list.ejs", newData);
+  //   });
+
+  app.get("/TVshows", redirectLogin, function (req, res) {
+    res.render("TVshows.ejs", shopData);
+  });
 
 }
 
